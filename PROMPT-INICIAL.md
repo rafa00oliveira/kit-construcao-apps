@@ -61,5 +61,8 @@ no servidor, RLS, segredo), perda de dado, regra de negócio inventada e teste q
 código e não liste gosto pessoal. Termine com uma palavra: APROVADO ou REVISAR.
 ```
 
+Revisão de segurança voltando com muito ruído? Acrescente ao prompt: "Liste só o achado que você acha explorável; antes
+de listar, tente provar que ele é falso positivo e diga por que não é."
+
 Com REVISAR, leve os achados para a IA que construiu, decida cada um (aceita ou recusa com motivo) e mande de novo ao
 mesmo revisor. Resposta vazia ou com erro não é aprovação.

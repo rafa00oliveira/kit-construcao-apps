@@ -24,8 +24,9 @@ Regras para qualquer IA (Claude Code, Codex, Cursor, Gemini) e pessoa que trabal
 - Script que grava no banco chama `conferirAlvo()` de `scripts/alvo.mjs` antes de criar o cliente.
 - O banco só muda por migration nova em `supabase/migrations/`. Migration aplicada não se edita.
 - Migration ou script contra produção só com ordem expressa do dono, nesta conversa.
-- Toda gravação confere login e papel no servidor e valida a entrada com zod. Login no servidor: `getClaims()`,
-  nunca `getSession()`. Acesso a dados em módulo com `import 'server-only'`.
+- Toda gravação confere login e papel no servidor e valida a entrada com zod; grava só os campos que o zod lista.
+  Login no servidor: `getClaims()` ou `getUser()`, nunca `getSession()`. Acesso a dados em módulo com
+  `import 'server-only'`.
 - Policy de `update` com `using` e `with check`, e com uma policy de `select` ao lado. Nunca `security definer` para
   resolver erro de permissão.
 - Regra de negócio que pode mudar fica em cadastro, não escrita no código. Escolha feita sem o pedido dizer vai para

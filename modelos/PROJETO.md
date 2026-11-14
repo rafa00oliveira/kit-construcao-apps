@@ -16,9 +16,11 @@ só para leitura. Sistema que já existe: escreva depois de ler o código e marq
 
 ## 3. Telas
 
-| Tela | Papel | O que mostra | O que grava |
-|---|---|---|---|
-| <...> | <...> | <...> | <...> |
+A coluna Fatia diz a ordem de construção (P1.4): a fatia 1 sozinha já é um MVP que alguém usa.
+
+| Fatia | Tela | Papel | O que mostra | O que grava |
+|---|---|---|---|---|
+| 1 | <...> | <...> | <...> | <...> |
 
 ## 4. Tabelas
 
@@ -40,7 +42,7 @@ para cadastro editável.
 
 Cada critério vira um teste (`node --test`) ou um roteiro de tela.
 
-- **A01:** dado <situação>, quando <ação>, então <resultado>. Teste: <arquivo ou roteiro>.
+- **A01 (fatia 1):** dado <situação>, quando <ação>, então <resultado>. Teste: <arquivo ou roteiro>.
 
 ## 7. Fora do escopo
 

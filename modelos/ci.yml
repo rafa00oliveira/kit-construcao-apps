@@ -27,5 +27,10 @@ jobs:
           cache: npm
       # --ignore-scripts: nenhum pacote roda código na instalação.
       - run: npm ci --ignore-scripts
+      # Confere a assinatura do registro e a proveniência dos pacotes instalados.
+      - run: npm audit signatures
       - run: npm audit --omit=dev --audit-level=critical
+      # Unicode invisível nos .md (AGENTS.md, CLAUDE.md) e nas regras do Cursor esconde ordem para a IA. Achou: falha e
+      # mostra a linha. O BOM (U+FEFF) fica de fora: editor do Windows grava no começo do arquivo.
+      - run: "! git ls-files -z '*.md' '*.mdc' | LC_ALL=C.UTF-8 xargs -0 -r grep -nP '[\\x{200B}-\\x{200F}\\x{202A}-\\x{202E}\\x{2060}-\\x{2064}\\x{E0000}-\\x{E007F}]'"
       - run: npm run check

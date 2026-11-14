@@ -5,11 +5,13 @@
       "Bash(git push -f*)",
       "Bash(git push * -f*)",
       "Bash(* --no-verify*)",
-      "Bash(* db push*)",
-      "Bash(* --prod*)",
       "Read(./.env)",
       "Read(./.env.local)",
       "Read(./.env.*.local)"
+    ],
+    "ask": [
+      "Bash(* db push*)",
+      "Bash(* --prod*)"
     ]
   }
 }

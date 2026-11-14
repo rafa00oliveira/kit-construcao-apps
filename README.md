@@ -39,7 +39,7 @@ Projeto que já existe: comece pelo prompt 3, que só levanta o que tem e o que 
 | `modelos/PROJETO.md` | `docs/PROJETO.md` |
 | `modelos/decisao.md` | `docs/decisoes/001-<assunto>.md`, um arquivo por decisão |
 | `modelos/.gitignore`, `modelos/.env.example` e `modelos/.npmrc` | raiz, antes do primeiro `git add` |
-| `modelos/claude-settings.json` | `.claude/settings.json` (quem usa Claude Code) |
+| `modelos/claude-settings.json` | `.claude/settings.json` na pasta em que o agente abre (quem usa Claude Code) |
 | `modelos/rls_ligada.test.sql` | `supabase/tests/` |
 | `modelos/ci.yml` | `.github/workflows/ci.yml` |
 | `modelos/alvo.mjs` e `modelos/alvo.test.mjs` | `scripts/` (preencha o ref de produção quando o banco existir) |
