@@ -1,6 +1,6 @@
 # Manual de construção de sites e software
 
-Versão 1.3-geral, 14/11/2026. É a versão para compartilhar do manual que uso nos meus apps em produção: os passos
+Versão 1.4-geral, 14/11/2026. É a versão para compartilhar do manual que uso nos meus apps em produção: os passos
 são os mesmos, sem a parte que só vale para os meus projetos. Vale para qualquer pessoa ou IA (Claude, Codex,
 Gemini, Cursor) que construir site ou sistema com este kit. O ciclo de cada tarefa de código está no
 `CICLO-DA-TAREFA.md`; as regras de tela e de gravação contra erro do usuário, no `POKA-YOKE-DIGITAL.md`. Este manual
@@ -176,7 +176,11 @@ gitleaks falhar; a varredura do histórico inteiro foi rodada uma vez e está an
 ### P5. Banco: tabelas, migrations e RLS (N2 e N3)
 
 1. O banco só muda por arquivo novo em `supabase/migrations/`, numerado em sequência. Nunca pelo painel.
-   Migration aplicada não se edita: a correção é a próxima.
+   Migration aplicada não se edita: a correção é a próxima. Com número em sequência (`001_`, `002_`), reserve o
+   número olhando todas as branches antes de criar (`git fetch`, depois
+   `git log --all --name-only --format= -- supabase/migrations | sort -u | tail -3`) e commite o arquivo logo, para a
+   outra sessão ver. Num app nosso, o número colidiu três vezes entre sessões paralelas. O `supabase migration new`
+   põe data e hora no nome e não colide.
 2. **Um método de aplicar por repositório**, escrito no `CONTEXTO.md` ("Como publicar"), com o comando que mostra o
    que já foi aplicado. Projeto novo usa a Supabase CLI como dependência de desenvolvimento com versão fixa. Antes de
    usar um comando da CLI, `supabase <comando> --help` na versão instalada: os flags mudam entre versões.
@@ -209,8 +213,12 @@ gitleaks falhar; a varredura do histórico inteiro foi rodada uma vez e está an
    coluna onde o papel só muda um campo. Num projeto nosso, a revogação foi só do `anon`, e qualquer admin apagava
    linhas direto pela API.
 8. Mudou tabela, função ou policy: a prova de RLS roda (N3: script que entra com uma conta de teste de cada papel e
-   tenta ler, gravar e apagar o que não pode; precisa recusar). Cada armadilha do item 5 vira uma tentativa: ler sem
-   ser o dono, trocar o dono num `update`, gravar sem papel. Roda no banco de teste; em produção, só a parte que lê.
+   tenta ler, gravar e apagar o que não pode; nada pode passar). Cada armadilha do item 5 vira uma tentativa: ler sem
+   ser o dono, trocar o dono num `update`, gravar sem papel. A RLS nega calada: o `select` volta lista vazia, e o
+   `update` e o `delete` de linha que a policy esconde voltam 0 linhas, com `error` nulo; só o que fura o
+   `with check` (o `insert` barrado, por exemplo) dá erro. Por isso a prova conta as linhas, pedindo `.select()`
+   depois do `update` ou do `delete`: o que não pode volta 0, o que pode volta o número esperado. Conferir só o
+   `error` aprova a gravação que não aconteceu. Roda no banco de teste; em produção, só a parte que lê.
 9. Do N2 em diante, `modelos/rls_ligada.test.sql` vai para `supabase/tests/` e confere que toda tabela do `public`
    tem RLS ligada (`supabase test db`, no banco local). No N3, a prova por papel do item 8 pode ser pgTAP na mesma
    pasta ou um script que entra com uma conta de teste de cada papel; vale a que o projeto já tem, desde que rode a
@@ -311,7 +319,14 @@ comando.
 ### P9. Publicação
 
 1. Ordem: migration de acréscimo, merge (que publica), prova no ar, migration de remoção numa publicação seguinte.
-2. Prova no ar: `curl` ou navegador na URL real mostrando a mudança, não "deu push".
+2. Prova no ar: `curl` ou navegador na URL real mostrando a mudança, não "deu push". O que não aparece na tela
+   (servidor, regra, permissão) se prova pelo commit no ar: uma rota `/version.json` devolve o commit do build, e
+   `curl -s <url>/version.json` tem de mostrar o que você publicou (`git rev-parse --short=7 HEAD`). No Next, o
+   arquivo `app/version.json/route.ts` (ou `.js`):
+   `export function GET() { return Response.json({ sha: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? 'local' }) }`
+   (a Vercel preenche a variável no build e na execução). No Vite, um plugin de poucas linhas no `vite.config` grava o
+   `version.json` no build. A mesma rota mostra quando o push não virou deploy e quando um rollback (item 3) deixou a
+   produção no código velho.
 3. Voltar atrás: o Instant Rollback da Vercel no plano Hobby volta só para o deploy anterior, e não desfaz
    migration. Por isso a migration em duas fases: o código anterior continua funcionando com o banco novo. Depois de
    um rollback, a Vercel para de levar os deploys novos para produção sozinha: a correção vai ao ar com
@@ -409,4 +424,7 @@ de alvo com o teste. O `README.md` diz para onde vai cada um. N2 cabe num `AGENT
   signatures https://docs.npmjs.com/cli/commands/npm-audit · cabeçalhos no Next
   https://nextjs.org/docs/app/api-reference/config/next-config-js/headers · MADR (Confirmation)
   https://github.com/adr/madr · vibe-coding-security https://github.com/boxed-dev/vibe-coding-security
+- Lições de dois apps nossos em produção (14/11/2026): número de migration reservado, RLS que nega calada e
+  `/version.json`. Variáveis de sistema da Vercel (`VERCEL_GIT_COMMIT_SHA`, no build e na execução):
+  https://vercel.com/docs/environment-variables/system-environment-variables
 - Registro sem culpa: Google SRE, cap. 15 https://sre.google/sre-book/postmortem-culture/
