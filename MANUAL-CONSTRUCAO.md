@@ -130,6 +130,10 @@ Prova: `git log -1 --format=%ae` mostra o e-mail certo; `npm run check` passa nu
    para e pede o OK do dono no que se faz com ordem dele: `db push` e `--prod` (o padrão pega também o `--producao`
    da trava de alvo). Os dois valem mesmo com o agente no modo sem confirmação (testado no Claude Code em 13/11/2026).
    A regra escrita depende de a IA obedecer; a trava barra o comando.
+   - Regra `Bash(...)` não vale para a ferramenta PowerShell do Claude Code no Windows: cada uma se repete como
+     `PowerShell(...)`, como no modelo. O `git push * +*` barra o push forçado escrito como `+main`.
+   - Padrão que começa com `*` pega também o comando que só cita o texto (`*seed.mjs*` parava um `git add`); no
+     `ask`, isso só pede um OK a mais. Num `claude -p`, sem ninguém para aprovar, o `ask` vira recusa.
    - O arquivo vale na pasta em que o agente abre. Um `.claude/settings.json` numa pasta acima não se aplica: agente
      que abre numa subpasta (por exemplo, a pasta de papel de um orquestrador de agentes) precisa de uma cópia lá.
    - Não é muro: um comando escrito de outro jeito pode passar, então as regras do `AGENTS.md` continuam valendo.
