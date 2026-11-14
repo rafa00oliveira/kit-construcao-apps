@@ -62,3 +62,7 @@ Projeto que já existe: comece pelo prompt 3, que só levanta o que tem e o que 
 
 Os passos valem para qualquer stack; os comandos dos exemplos são de Next.js, Supabase e Vercel. Fugir da stack é uma
 decisão escrita em `docs/decisoes/`, com o motivo.
+
+## Licença
+
+MIT (`LICENSE`): pode copiar, adaptar e usar em projeto seu, inclusive comercial, mantendo o aviso de licença.
