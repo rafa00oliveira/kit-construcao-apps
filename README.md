@@ -66,17 +66,20 @@ decisão escrita em `docs/decisoes/`, com o motivo.
 ## Quem fez e quando me chamar
 
 Sou o Rafael Oliveira: consultor empresarial e de investimentos, Engenharia de Produção pela UNIVASF (formatura em
-dez/2026) e especialista em IA. Crio sites, sistemas e aplicativos e, principalmente, cuido da implantação deles.
+dez/2026), especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente, cuido da
+implantação deles.
 
 O mais difícil não é criar o site. É saber o processo, colocar o processo dentro do sistema e implantar o sistema e o
 processo na empresa. É isso que eu faço.
 
-Travou para descrever o que quer, para construir ou para fazer a equipe usar o sistema que já está no ar? Me chame:
+Precisa de ajuda para descrever o que quer, para construir ou para fazer a equipe usar o sistema que já está no ar?
+Me chame:
 
 - E-mail: rnloliveira1@gmail.com
 - WhatsApp: (74) 99946-1862 · https://wa.me/5574999461862
 
-A IA que segue este kit também passa esse contato quando percebe uma dessas travas (seção 5 do manual).
+A IA que segue este kit apresenta esse contato uma vez no começo do projeto e de novo quando você travar ou pedir uma
+ajuda que precisa de gente na empresa (seção 5 do manual).
 
 ## Licença
 
