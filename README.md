@@ -9,7 +9,7 @@ erro que já aconteceu.
 | Arquivo | Para quê | Quem lê |
 |---|---|---|
 | `README.md` | este guia | você |
-| `PROMPT-INICIAL.md` | quatro prompts prontos: primeiro dia, cada tarefa, projeto que já existe, revisão por outra IA | você cola na IA |
+| `PROMPT-INICIAL.md` | cinco prompts prontos: primeiro dia, cada tarefa, projeto que já existe, revisão por outra IA e auditoria final antes de entregar | você cola na IA |
 | `MANUAL-CONSTRUCAO.md` | os passos P0 a P12 do projeto inteiro e o que é obrigatório em cada nível | você e a IA |
 | `CICLO-DA-TAREFA.md` | os quatro portões de cada tarefa de código: entender, planejar, causa-raiz, prova | a IA |
 | `POKA-YOKE-DIGITAL.md` | como impedir o erro de quem usa, na tela, no servidor e no banco | a IA, em toda tela |
@@ -27,6 +27,9 @@ erro que já aconteceu.
    por vez, mostrando a prova de cada um.
 5. **A cada tarefa nova, cole o prompt 2.** Nada está pronto sem a prova do P8: `npm run check` verde, teste da regra,
    tela conferida e, depois do deploy, a URL respondendo com a mudança.
+
+6. **Antes de apresentar ou entregar, cole o prompt 5** no modelo mais forte que você tiver. Ele olha o sistema
+   inteiro, coisa que a revisão diff a diff não faz, e ensaia a apresentação com cada perfil de teste.
 
 Projeto que já existe: comece pelo prompt 3, que só levanta o que tem e o que falta, sem mexer em nada.
 

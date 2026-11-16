@@ -73,6 +73,7 @@ Limites que pegam gente boa (PostgreSQL 18, §5.5.1):
 | T9 | Enviar duas vezes | botão travado durante o envio, mostrando "Enviando…" (`useFormStatus`). A garantia é a S3 | C · contato · P | |
 | T10 | Compromisso financeiro, legal ou de dado enviado com erro | tela de revisão com "editar" em cada bloco e botão que diz a consequência (WCAG 3.3.4) | C · etapa · D | "Excluir 12 pedidos" e "Manter pedidos" no lugar de "Sim" e "Não" |
 | T11 | Não entender o erro e desistir | mensagem junto do campo com causa e conserto, sem código técnico (WCAG 3.3.1 e 3.3.3) | A · contato · D | "CEP não encontrado. Confira os 8 números ou digite o endereço à mão" |
+| T12 | Aceitar um valor sugerido que o próprio sistema sabe ser impossível | o valor pré-preenchido respeita a regra. A data de chegada sugerida nunca vem antes de hoje mais o prazo de entrega. Quando a data necessária não dá, o campo diz quanto falta ("chega 53 dias depois do necessário") | A · — · P | o campo de chegada vinha com a data necessária, 05/10, para um item com 60 dias de prazo; quem só confirmava fazia a falta sumir do plano sem o material existir |
 
 ### 3.4 Recuperação
 
@@ -125,6 +126,9 @@ Do FMEA para o dispositivo: o dispositivo de prevenção baixa a **ocorrência**
 4. **Mostrar erro cru.** "Erro 500", "Dados inválidos" ou o código do Postgres na tela. Traduza (seção 7).
 5. **Dispositivo sem dono.** O `CHECK` cuja regra mudou e ninguém reconferiu, a RLS esquecida numa view nova, o teste
    desligado. Cada dispositivo tem dono, teste (E1) e revisão quando o processo muda.
+6. **Aviso que não prioriza nem diz o que fazer.** Quando 70% das linhas têm o selo "Atrasado", o selo não separa
+   nada, e "há 53 dias" não diz a ação. O aviso diz o que fazer agora ("Compre hoje: chega em 27/11, 53 dias depois do
+   necessário") e cabe numa linha, com a causa e o que fazer. Cada linha tem um nível de urgência só.
 
 ## 6. Checklist do PR
 
@@ -138,6 +142,8 @@ Vale para toda tela ou gravação nova ou mudada, junto do P8 do manual:
 - [ ] Formulário longo salva rascunho (R2).
 - [ ] Advertência que pode ser ultrapassada registra quem passou, quando e por quê.
 - [ ] Há um teste que tenta violar a regra nova e espera a recusa.
+- [ ] Aceitar cada valor pré-preenchido sem mexer (o "só confirmar") dá um resultado verdadeiro (T12).
+- [ ] Nenhum número, data ou código interno do servidor aparece cru na tela.
 
 ## 7. Código de erro do Postgres para traduzir na tela
 

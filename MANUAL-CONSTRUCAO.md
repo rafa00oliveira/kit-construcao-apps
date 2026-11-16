@@ -1,6 +1,6 @@
 # Manual de construção de sites e software
 
-Versão 1.5-geral, 15/11/2026. É a versão para compartilhar do manual que uso nos meus apps em produção: os passos
+Versão 1.6-geral, 16/11/2026. É a versão para compartilhar do manual que uso nos meus apps em produção: os passos
 são os mesmos, sem a parte que só vale para os meus projetos. Vale para qualquer pessoa ou IA (Claude, Codex,
 Gemini, Cursor) que construir site ou sistema com este kit. O ciclo de cada tarefa de código está no
 `CICLO-DA-TAREFA.md`; as regras de tela e de gravação contra erro do usuário, no `POKA-YOKE-DIGITAL.md`. Este manual
@@ -286,12 +286,33 @@ olhando também `.git/hooks`) não acha nada.
      "Pular para o conteúdo"; alvo de toque com pelo menos 24×24 px;
    - cor sempre com texto visível; animação respeita `prefers-reduced-motion`; funciona a partir de 360 px;
    - número no formato pt-BR com unidade, sem arredondar fração para "0"; lista que passa de 200 linhas é paginada.
+
+   E, contra o que confunde quem usa (lições da auditoria final de um MRP nosso, em 15/11/2026):
+   - Nada sai do servidor cru para a tela: número com 15 casas (`44.025000000000006`), semana em código (`2026-W40`) e
+     palavra interna do cálculo. Uma função de formatação, com teste, monta a frase com vírgula, unidade e data por
+     extenso ("semana de 28/09").
+   - O plural acompanha a quantidade ("1 dia", "2 dias"), sempre pela mesma função.
+   - A frase que resume uma linha usa o mesmo dado das colunas ao lado. No nosso MRP, a frase citava a semana da venda
+     mais antiga, e a coluna citava a semana da falta.
+   - O mesmo tipo de controle (filtro, busca, período) usa o mesmo componente, no mesmo lugar, em todas as telas. Achou
+     um fora do padrão, corrija em todas.
+   - Abaixo de 1024 px, a tabela larga vira cartão, e o botão principal da linha nunca fica fora da tela. Texto de dado
+     tem pelo menos 12 px.
+   - Cabeçalho fixo só entra depois de medir a altura útil de um notebook de 1366×768: são uns 650 px com a barra do
+     navegador. Num app nosso, o topo fixo deixava espaço para uma linha só de tabela.
 6. Regra de negócio, conta, data, dinheiro e permissão ganham teste no mesmo commit (`node --test`). Não precisa
-   escrever suíte para o código antigo: o teste nasce quando o código é tocado.
+   escrever suíte para o código antigo: o teste nasce quando o código é tocado. Uma grandeza que aparece em mais de
+   um lugar (o prazo no selo, na grade e no aviso) tem uma unidade e uma função só. Um teste confere que todos esses
+   lugares dizem o mesmo para o mesmo caso. Num MRP nosso, o alerta contava em semanas e o prazo em dias, e a mesma
+   compra recebia ao mesmo tempo "ainda dá tempo" e "prazo vencido".
 7. Commit lista os arquivos pelo nome (nunca `git add -A` nem `.`); mensagem em português dizendo o porquê.
 8. Tela e gravação nova ou mudada passam pelo checklist do `POKA-YOKE-DIGITAL.md` (seção 6): a mesma regra na tela,
    no servidor e no banco, controle no que é grave e sem exceção, desfazer no lugar de "tem certeza?" e erro
    traduzido.
+9. Nada some calado. Item que a regra tira da conta gera aviso com a causa e quem resolve: item inativo, item fora do
+   período, parâmetro que não cabe no horizonte do cálculo (um prazo de entrega maior que a janela faz a compra só
+   aparecer quando já está atrasada). Configuração lida do banco, como um JSON de parâmetros, passa pelo mesmo zod da
+   gravação. Sem ele, um valor inválido quebra o cálculo com erro técnico em inglês.
 
 Prova: o PR (ou o commit) tem a saída do `check`, o teste novo e a revisão registrada.
 
@@ -304,18 +325,47 @@ Só está pronto o que tem prova fresca:
 3. Mexeu no banco: a prova de RLS passou no banco conferido pela trava de alvo, e os advisors não mostram `ERROR`
    (P5.10).
 4. Tela aberta (local ou preview) com o caminho certo e um caminho de erro funcionando. Tela nova ou mudada: axe ou
-   Lighthouse sem violação grave, uma passada só com o teclado e a tela a 360 px.
+   Lighthouse sem violação grave, uma passada só com o teclado e a tela a 360 px. Tela de entrada: quem mais usa
+   responde à pergunta principal da tela em 10 segundos, e o primeiro trecho visível a 1366×768 mostra o primeiro
+   item útil, não filtros nem itens velhos.
 5. Configuração do Auth conferida (N2 e N3): cadastro público desligado (`GET <url>/auth/v1/settings` com a chave
    publicável mostra `disable_signup: true`), `site_url` igual à URL de produção e senha mínima de 8, no painel. Num
    projeto nosso, o cadastro estava aberto e o `site_url` em `localhost:3000` até uma auditoria achar. Quem sai da
    equipe tem as sessões encerradas antes de o usuário ser apagado: apagar não invalida o token que ele já tem.
 6. Depois do deploy, a URL de produção respondendo com a mudança (P9).
 7. Documento dono atualizado na mesma mudança: comportamento na especificação, estado no `CONTEXTO.md`, regra no
-   `AGENTS.md`. Arquivo gerado (cópia de leitura, consolidado) se refaz a partir da fonte, nunca à mão.
+   `AGENTS.md`. Arquivo gerado (cópia de leitura, consolidado) se refaz a partir da fonte, nunca à mão. O exemplo
+   numérico que alguém refaz à mão (o do documento de regras) roda como teste contra o código. Assim o documento não
+   fica velho sem ninguém perceber.
 8. Nenhum segredo e nenhum dado real sem autorização no que foi publicado.
 
 Teste descrito e não rodado continua "previsto". Relatório de agente não é prova: confere-se o diff e roda-se o
 comando.
+
+**Antes de uma entrega** (apresentação, MVP ou início do uso real). A revisão diff a diff não vê o sistema montado.
+Por isso, antes de cada entrega:
+
+1. O modelo mais forte que você tiver faz uma passada no sistema inteiro, com o prompt 5 do `PROMPT-INICIAL.md`. Ele
+   planeja e julga. A leitura em massa vai para modelos mais baratos, porque o mais forte custa mais e a cota acaba.
+2. Seis varreduras, cada uma por um agente sem o contexto de quem construiu, só lendo, com prova por achado e três
+   níveis (bloqueia a entrega, bloqueia a próxima, melhoria):
+   - segurança do banco;
+   - segurança do servidor;
+   - dados e concorrência;
+   - mensagens;
+   - telas e desempenho;
+   - a entrega contra os requisitos.
+3. Ensaio no site no ar, com cada perfil de teste, pelo caminho que vai ser mostrado.
+   - Conta de teste tem dado: um vendedor sem nenhuma venda mostra só tela vazia.
+   - O dado de demonstração combina com a data do sistema, e um caso de alerta fica de propósito, para mostrar o aviso.
+   - Faça o teste do "só confirmar": aceite cada valor sugerido sem mexer e veja se o resultado continua verdadeiro.
+4. Os consertos voltam pelo ciclo normal: revisão dupla e prova.
+
+Num MRP nosso, essa passada achou em um dia o que dezenas de revisões de diff tinham aprovado:
+- número cru na tela;
+- frase citando a semana errada;
+- prazo contraditório entre o selo e o aviso;
+- uma data de chegada sugerida que o próprio sistema dizia ser impossível.
 
 ### P9. Publicação
 
@@ -388,6 +438,8 @@ comando.
 | "Pronto" sem prova | o agente relata sucesso sem rodar | P8; o diff e o comando se conferem |
 | Arquivo de outra sessão no commit | duas sessões de IA na mesma pasta | commit por nome; nunca `git stash` com trabalho de outra sessão |
 | Regra copiada que envelhece | cópia editada à mão diverge da fonte | um fato, uma casa; cópia só por script |
+| Revisor que aprova tudo | o segundo revisor responde rápido e aprova, e o defeito passa porque só o primeiro olhou de verdade | meça o revisor: conte quantas vezes ele aprovou um diff em que o outro achou defeito real. Se aprova quase tudo, troque por um modelo mais forte. Num MRP nosso, um revisor grátis aprovou 11 diffs com defeito em 41 revisões |
+| Texto que confirma sem querer | mensagem mandada a um agente que está numa janela de confirmação (por exemplo, comando destrutivo no banco) vira a resposta dessa janela; mensagem mandada com o agente ocupado pode se perder | mande só com o terminal na conversa, parado, sem janela aberta e com a caixa de texto vazia; depois, confira no histórico do agente que a mensagem chegou |
 | Dependência com falha conhecida | a IA instala e esquece; uma falha crítica do `next` passou meses em apps nossos | alertas do Dependabot ligados (`gh api -X PUT repos/<dono>/<repo>/vulnerability-alerts`); `npm audit --omit=dev --audit-level=critical` no CI (P4); N3 com o `next` na última versão de correção |
 
 ## 3. Modelos
