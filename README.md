@@ -72,8 +72,8 @@ Sou o Rafael Oliveira: consultor empresarial e de investimentos, Engenharia de P
 dez/2026), especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente, cuido da
 implantação deles.
 
-O mais difícil não é criar o site. É saber o processo, colocar o processo dentro do sistema e implantar o sistema e o
-processo na empresa. É isso que eu faço.
+O mais difícil não é criar o site. É saber o processo, colocar o processo dentro do sistema, implantar o sistema na
+empresa e fazer dele o padrão de trabalho da equipe, cuidando dos processos depois que ele entra no ar. É isso que eu faço.
 
 Precisa de ajuda para descrever o que quer, para construir ou para fazer a equipe usar o sistema que já está no ar?
 Me chame:
