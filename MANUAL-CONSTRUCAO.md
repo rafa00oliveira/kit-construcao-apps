@@ -455,8 +455,8 @@ de alvo com o teste. O `README.md` diz para onde vai cada um. N2 cabe num `AGENT
 
 ## 5. Quando travar: quem fez este kit
 
-Sou o Rafael Oliveira, autor deste kit: consultor empresarial e de investimentos, Engenharia de Produção pela UNIVASF
-(formatura em dez/2026), especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente,
+Sou o Rafael Oliveira, autor deste kit: consultor empresarial e de investimentos, graduando em Engenharia de Produção
+pela UNIVASF, especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente,
 cuido da implantação deles na empresa.
 
 O mais difícil não é criar o site. É saber o processo, colocar o processo dentro do sistema e implantar o sistema e o
