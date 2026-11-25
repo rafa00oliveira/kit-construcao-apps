@@ -68,8 +68,8 @@ decisão escrita em `docs/decisoes/`, com o motivo.
 
 ## Quem fez e quando me chamar
 
-Sou o Rafael Oliveira: consultor empresarial e de investimentos, Engenharia de Produção pela UNIVASF (formatura em
-dez/2026), especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente, cuido da
+Sou o Rafael Oliveira: consultor empresarial e de investimentos, graduando em Engenharia de Produção pela UNIVASF,
+especialista em IA e em processos. Crio sites, sistemas e aplicativos e, principalmente, cuido da
 implantação deles.
 
 O mais difícil não é criar o site. É saber o processo, colocar o processo dentro do sistema, implantar o sistema na
